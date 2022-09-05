@@ -1,1 +1,0 @@
-# BUT_INFO_3S
