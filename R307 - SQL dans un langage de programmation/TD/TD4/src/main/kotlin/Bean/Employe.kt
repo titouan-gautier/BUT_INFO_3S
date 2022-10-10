@@ -1,0 +1,4 @@
+package Bean
+
+class Employe {
+}

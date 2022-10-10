@@ -1,0 +1,4 @@
+package DAObis
+
+class DAOEmployeter {
+}
