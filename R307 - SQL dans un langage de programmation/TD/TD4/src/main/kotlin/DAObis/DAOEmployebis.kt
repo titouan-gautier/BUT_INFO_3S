@@ -4,7 +4,7 @@ import database.SessionOracle
 import java.sql.Connection
 import java.sql.*
 
-class DAOEmploye(val ss: SessionOracle) {
+class DAOEmployebis(val ss: SessionOracle) {
     var session: SessionOracle? = null
     init {
         this.session=ss
@@ -13,11 +13,16 @@ class DAOEmploye(val ss: SessionOracle) {
     fun create(e : Employe) {
         var conn: Connection? = null
         conn = session?.getConnectionOracle()
-        val requete: String = "Insert into employe VALUES(${e.getNuempl()},'${e.getNomempl()}',${e.getHebdo()},${e.getAffect()},${e.getSalaire()})"
+        val requete: String = "Insert into employe VALUES(?,?,?,?,?)"
 
         try {
-            val stmt: Statement = conn!!.createStatement()// Création d'une requete de type Statemen
-            stmt.executeUpdate(requete)
+            val stmt: PreparedStatement = conn!!.prepareStatement(requete)// Création d'une requete de type Statemen
+            stmt.setInt(1,e.getNuempl())
+            stmt.setString(2,e.getNomempl())
+            stmt.setInt(3,e.getHebdo())
+            stmt.setInt(4,e.getAffect())
+            stmt.setInt(5,e.getSalaire())
+            stmt.executeUpdate()
         } catch (e: SQLException) {
             println(e.errorCode)//numéro d'erreur
             println(e.message)// message d'erreur qui provient d'oracle, trigger ou procédure
@@ -28,11 +33,16 @@ class DAOEmploye(val ss: SessionOracle) {
     fun update(e : Employe) {
         var conn: Connection? = null
         conn = session?.getConnectionOracle()
-        val requete : String = "UPDATE employe SET nomempl = '${e.getNomempl()}', hebdo = ${e.getHebdo()}, affect = ${e.getAffect()}, salaire = ${e.getSalaire()} where nuempl = ${e.getNuempl()} "
+        val requete : String = "UPDATE employe SET nomempl = ?, hebdo = ?, affect = ?, salaire = ? where nuempl = ? "
 
         try {
-            val stmt: Statement = conn!!.createStatement()// Création d'une requete de type Statemen
-            stmt.executeUpdate(requete)
+            val stmt: PreparedStatement = conn!!.prepareStatement(requete)// Création d'une requete de type Statemen
+            stmt.setString(1,e.getNomempl())
+            stmt.setInt(2,e.getHebdo())
+            stmt.setInt(3,e.getAffect())
+            stmt.setInt(4,e.getSalaire())
+            stmt.setInt(5,e.getNuempl())
+            stmt.executeUpdate()
         } catch (e: SQLException) {
             println(e.errorCode)//numéro d'erreur
             println(e.message)// message d'erreur qui provient d'oracle, trigger ou procédure
@@ -43,11 +53,12 @@ class DAOEmploye(val ss: SessionOracle) {
     fun delete(e: Employe) {
         var conn: Connection? = null
         conn = session?.getConnectionOracle()
-        val requete : String = "DELETE from employe where nuempl = ${e.getNuempl()}"
+        val requete : String = "DELETE from employe where nuempl=?"
 
         try {
-            val stmt: Statement = conn!!.createStatement()// Création d'une requete de type Statemen
-            stmt.executeUpdate(requete)
+            val stmt: PreparedStatement = conn!!.prepareStatement(requete)// Création d'une requete de type Statemen
+            stmt.setInt(1,e.getNuempl())
+            stmt.executeUpdate()
         } catch (e: SQLException) {
             println(e.errorCode)//numéro d'erreur
             println(e.message)// message d'erreur qui provient d'oracle, trigger ou procédure
