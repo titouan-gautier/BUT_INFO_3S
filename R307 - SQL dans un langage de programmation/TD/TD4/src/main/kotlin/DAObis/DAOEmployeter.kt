@@ -12,20 +12,21 @@ class DAOEmployeter(val ss: SessionOracle) {
     }
 
     fun create(e : Employe) {
-        var conn: Connection? = null
-        conn = session?.getConnectionOracle()
-        val requete: String = "call MAJ.CREER_EMPLOYE(?,?,?,?,?)"
+        var conn : Connection?
+        conn = session!!.getConnectionOracle()
+        var requete = "call MAJ.CREER_EMPLOYE(?,?,?,?,?)"
+
         try {
-            val stmt: CallableStatement = conn!!.prepareCall(requete)// Création d'une requete de type Statemen
-            stmt.setInt(1,e.getNuempl());
-            stmt.setString(2,e.getNomempl());
-            stmt.setInt(3,e.getHebdo());
-            stmt.setInt(4,e.getAffect());
-            stmt.setInt(5,e.getSalaire());
-            stmt.execute()
-        } catch (e: SQLException) {
-            println(e.errorCode)//numéro d'erreur
-            println(e.message)// message d'erreur qui provient d'oracle, trigger ou procédure
+            var stmt : CallableStatement = conn!!.prepareCall(requete)
+            stmt.setInt(1,e.getNuempl())
+            stmt.setString(2,e.getNomempl())
+            stmt.setInt(3,e.getHebdo())
+            stmt.setInt(4,e.getAffect())
+            stmt.setInt(5,e.getSalaire())
+            stmt.executeUpdate()
+        } catch (e : SQLException) {
+            println(e.errorCode)
+            println(e.message)
         }
         this.read()
     }
@@ -68,36 +69,28 @@ class DAOEmployeter(val ss: SessionOracle) {
 
 
     fun read(){
-
-
-        //var essai = SessionOracle();
         var conn: Connection? = null
-        conn= session?.getConnectionOracle()
-        val requete: String="call LECTURE.liste_employes(?)"
+        conn = session?.getConnectionOracle()
+        val requete : String = "call lecture.liste_employes(?)"
+
         try {
-            val stmt: CallableStatement = conn!!.prepareCall(requete)// Création d'une requete de type Stateme
+            var stmt : CallableStatement = conn!!.prepareCall(requete)
             stmt.registerOutParameter(1,OracleTypes.CURSOR)
-            stmt.execute()
-            var result = stmt.getObject(1) as ResultSet
+            stmt.executeUpdate()
+            var result : ResultSet = stmt.getObject(1) as ResultSet
 
-            /* Parcourir le résultat du select avec la fonction next();*/
             while (result!!.next()) {
+                var id = result.getInt("nuempl")
+                var name = result.getString("nomempl")
+                var hebdo = result.getInt("hebdo")
+                var affect = result.getInt("affect")
+                var salaire = result.getInt("salaire")
 
-                // getting the value of the id column
-                val id = result.getInt("nuempl")
-                val nom=result.getString("nomempl")
-                val hebdo = result.getInt("hebdo")
-                val affect = result.getInt("affect")
-                val salaire = result.getInt("salaire")
-                println("$id $nom $hebdo $affect $salaire")
-
+                println("$id $name $hebdo $affect $salaire")
             }
-            result.close()
-        }
-
-        catch(e: SQLException){
-            println(e.errorCode)//numéro d'erreur
-            println(e.message)// message d'erreur qui provient d'oracle, trigger ou procédure
+        } catch (e : SQLException) {
+            println(e.errorCode)
+            println(e.message)
         }
     }
 

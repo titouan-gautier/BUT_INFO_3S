@@ -15,6 +15,7 @@ fun main(args: Array<String>) {
     essai.getConnectionOracle()
 
     var titouan = Employe(1,"titouan",25,2, 2000)
+    var titouanv2 = Employe(2,"titouanv2",25,2, 2000)
     /*
     var titouanv2 = Employe(1,"titouanv2",25,2, 2000)
     var maxime = Employe(2,"maxime",25,1,5000)
@@ -25,13 +26,12 @@ fun main(args: Array<String>) {
 
     var dd= DAOEmployeter(essai)
 
-    dd.read()
+    dd.create(titouanv2)
 
     /*
 
-    dd.create(titouan)
+    dd.read()
 
      */
-
 
 }

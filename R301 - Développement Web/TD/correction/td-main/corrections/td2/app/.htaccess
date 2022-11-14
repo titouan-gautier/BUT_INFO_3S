@@ -1,0 +1,3 @@
+RewriteEngine On
+
+FallbackResource /~jub/php/td2/app/index.php
