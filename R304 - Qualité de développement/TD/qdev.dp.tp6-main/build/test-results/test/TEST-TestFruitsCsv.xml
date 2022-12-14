@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestFruitsCsv" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-11-29T16:47:04" hostname="pop-os" time="0.071">
+  <properties/>
+  <testcase name="testAjout()" classname="TestFruitsCsv" time="0.054"/>
+  <testcase name="testFruitBanane()" classname="TestFruitsCsv" time="0.002"/>
+  <testcase name="testFruitGoyave()" classname="TestFruitsCsv" time="0.002"/>
+  <testcase name="testTousLesFruits()" classname="TestFruitsCsv" time="0.004"/>
+  <testcase name="testAjout_exception()" classname="TestFruitsCsv" time="0.003"/>
+  <testcase name="testEnregistrement()" classname="TestFruitsCsv" time="0.003"/>
+  <testcase name="testFruitsCoutantMoinsQue10()" classname="TestFruitsCsv" time="0.001"/>
+  <system-out><![CDATA[[Fruit(nom=Abricot, prix=18.4, quantite=80), Fruit(nom=Ananas, prix=30.4, quantite=140), Fruit(nom=Banane, prix=8.4, quantite=30), Fruit(nom=Fraise, prix=8.7, quantite=25), Fruit(nom=Framboise, prix=12.4, quantite=50), Fruit(nom=Goyave, prix=24.4, quantite=0), Fruit(nom=Kiwi, prix=4.5, quantite=10), Fruit(nom=Melon, prix=28.4, quantite=130), Fruit(nom=Mûre, prix=14.4, quantite=60), Fruit(nom=Nectarine, prix=22.4, quantite=100), Fruit(nom=Orange, prix=26.4, quantite=120), Fruit(nom=Poire, prix=10.4, quantite=30), Fruit(nom=Pomme, prix=6.4, quantite=20), Fruit(nom=Pêche, prix=16.4, quantite=70), Fruit(nom=Raisin, prix=20.4, quantite=90)]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

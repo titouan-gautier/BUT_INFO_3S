@@ -1,76 +1,97 @@
-    import math as mt
-    import time
-    import matplotlib.pyplot as plt
-    import numpy as np
-    from scipy.stats import linregress
-    import random as rd
+import math as mt
+import time
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.stats import linregress
+import random as rd
+# Exercice 3 - 1
+dict_cod={'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10,'k':11,'l':12,'m':13,'n':14,'o':15,'p':16,'q':17,\
+                'r':18,'s':19,'t':20,'u':21,'v':22,'w':23,'x':24,'y':25,'z':26,' ':27,',':28,'.':29,'?':30,':':0}
 
-    # Exercice 3 - 1
+# Exercice 3 - 2
 
-    dict_cod={'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10,'k':11,'l':12,'m':13,'n':14,'o':15,'p':16,'q':17,\
-                    'r':18,'s':19,'t':20,'u':21,'v':22,'w':23,'x':24,'y':25,'z':26,' ':27,',':28,'.':29,'?':30,':':0}
+def chiff_affine(msg,a,b) : 
+    print("Mot de base ,",msg)
 
-    # Exercice 3 - 2
+    msg_code = []
 
-    def chiff_affine(msg,a,b) : 
+    for i in msg :
+        pos = (a*dict_cod[i]+b) % 31
+        msg_code.append(pos)
 
-        print(msg)
+    msg_crypt = ""
+    
+    for y in msg_code :
+        for cle , valeur in dict_cod.items() :
+            if y == valeur :
+                msg_crypt += cle
 
-        msg_code = []
+    print("'Valeur crypté' ,",msg_crypt)
+    return msg_crypt
 
-        for i in msg :
-            pos = (a*dict_cod[i]+b) % 31
-            msg_code.append(pos)
+""" print(chiff_affine("bonjour",2,1)) """
 
-        msg_crypt = ""
-        
-        for y in msg_code :
-            for cle , valeur in dict_cod.items() :
-                if y == valeur :
-                    msg_crypt += cle
+# Exercice 3 - 3
 
-        return msg_crypt
+def extended_gcd(a, b):
+    if a < b:
+        a, b = b, a
+    u0, u1 = 1, 0
+    v0, v1 = 0, 1
+    while b != 0:
+        q = int(a/b)
+        b, a = a % b, b
+        u0, u1, v0, v1 = v0, v1, u0-q*v0, u1-q*v1
+    return u1
 
-    """ print(chiff_affine("allez nantes ?",2,1)) """
+def dechiff_affine(msg,a,b,p) :
+    msg_decod = []
 
-    # Exercice 3 - 3
+    for i in msg :
+        inverse_mod = extended_gcd(a,p)
+        pos = ((dict_cod[i]-b)*inverse_mod) % 31
+        msg_decod.append(str(round(pos)))
 
-    def extended_gcd(a, b):
-        if a < b:
-            a, b = b, a
-        u0, u1 = 1, 0
-        v0, v1 = 0, 1
-        while b != 0:
-            q = int(a/b)
-            b, a = a % b, b
-            u0, u1, v0, v1 = v0, v1, u0-q*v0, u1-q*v1
-        return u1
+    msg_decrypt = ""
 
-    def dechiff_affine(msg,a,b,p) :
+    for y in msg_decod :
+        for cle , valeur in dict_cod.items() :
+            if int(y) == valeur :
+                msg_decrypt += cle
+    return msg_decrypt
 
-        msg_decod = []
+print(dechiff_affine(chiff_affine("??",1,1),2,1,31))
 
-        for i in msg :
-            inverse_mod = extended_gcd(a,p)
-            pos = ((dict_cod[i]-b)*inverse_mod) % 31
-            msg_decod.append(str(round(pos)))
+# Exercice 3 - 4
 
-        msg_decrypt = ""
+# Il y a 31*31 clé différente ce qui fait 961 clé différentes.
 
-        for y in msg_decod :
-            for cle , valeur in dict_cod.items() :
-                if int(y) == valeur :
-                    msg_decrypt += cle
+def cass_chiff_affine(msg) :
+    msg_chiff = chiff_affine(msg,2,1)
+    d = ""
 
-        return msg_decrypt
+    tab = []
 
-    print(dechiff_affine(chiff_affine("allez nantes ?",2,1),2,1,31))
+    a = 0
+    b = 0
 
-    # Exercice 3 - 4
+    i = 1
 
-    # Il y a 31*31 clé différente ce qui fait 961 clé différentes.
+    while 1 :
+        bon = True
+        while bon :
+            a = rd.randint(1,31)
+            b = rd.randint(1,31)
+            if (a,b) not in tab :
+                bon = False
+                tab.append((a,b))
 
-    def cass_chiff_affine(msg) :
-        a = rd.randint(0,31)
-        b = rd.randint(0,31)
+        d = dechiff_affine(msg_chiff,a,b,31)
+        print("Essaie ",i,": ",d)
 
+        if (msg == d) :
+            return "Trouvé, a = ",a," b = ",b," Essaie ",i
+        i += 1
+            
+            
+print(cass_chiff_affine("allez nantes"))

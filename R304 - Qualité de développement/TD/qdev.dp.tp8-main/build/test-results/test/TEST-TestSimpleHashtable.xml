@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestSimpleHashtable" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-12-09T11:05:13" hostname="pop-os" time="0.056">
+  <properties/>
+  <testcase name="testPlusieursElements()" classname="TestSimpleHashtable" time="0.056"/>
+  <system-out><![CDATA[Truc(id=5)
+Truc(id=1)
+Truc(id=7)
+Truc(id=9)
+Truc(id=5)
+Truc(id=1)
+Truc(id=7)
+Truc(id=9)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
